@@ -1,0 +1,20 @@
+@import 'primeng/resources/themes/md-light-indigo/theme.css';
+@import 'primeng/resources/primeng.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    margin: 0;
+}
+
+body {
+    @apply bg-light-blue;
+}
+
+@layer components {
+    .card {
+        @apply bg-gray-100 p-4 rounded-md flex flex-col gap-1;
+    }
+}

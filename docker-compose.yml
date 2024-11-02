@@ -1,0 +1,59 @@
+version: "3.8"
+
+x-defaults: &defaults
+    init: true
+    tty: true
+    networks:
+        - pension_calculator_network
+
+networks:
+    pension_calculator_network:
+
+services:
+    api:
+        <<: *defaults
+        container_name: pension-calculator-api
+        build: ./services/api
+        ports:
+            - "8080:8080"
+        volumes:
+            - ./services/api:/app
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod
+        depends_on:
+            - db
+
+    web:
+        <<: *defaults
+        build: ./services/web
+        container_name: pension-calculator-web
+        ports:
+            - "4200:4200"
+        depends_on:
+            - api
+
+    db:
+        <<: *defaults
+        image: postgres:14.7-alpine
+        container_name: pension-calculator-postgres
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: pension-calculator
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+
+    adminer:
+        <<: *defaults
+        image: adminer:latest
+        links:
+            - db
+        ports:
+            - "8081:8080"
+        depends_on:
+            - db
+
+volumes:
+    pgdata:
