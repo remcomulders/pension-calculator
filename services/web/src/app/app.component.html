@@ -2,21 +2,31 @@
     <header class="flex flex-col gap-4 items-start lg:m-auto">
         <h1 class="text-8xl bg-gradient-header bg-clip-text text-transparent w-fit">Pensioen Berekenen</h1>
         <div class="hidden lg:grid grid-cols-2 w-full gap-8">
-            <a href="https://www.befrank.nl/?post_type=page&p=62" target="_blank" class="group w-full flex relative h-96 overflow-hidden rounded-md text-gray-950 no-underline">
+            <a 
+                href="https://www.befrank.nl/?post_type=page&p=62" 
+                target="_blank" 
+                class="group w-full flex relative h-96 overflow-hidden rounded-md text-gray-950 no-underline hover:underline"
+            >
                 <img 
                     src="https://www.befrank.nl/wp-content/uploads/2022/10/1808_17_BeFrank_000_1148-HR-RGB_Lowres-e1666785423320-1920x1080.jpg" 
                     alt=""
-                    class="absolute inset-0 object-cover w-full h-full transition-transform scale-100 duration-300 group-hover:scale-105" />
+                    class="absolute inset-0 object-cover w-full h-full transition-transform scale-100 duration-300 group-hover:scale-105" 
+                />
                 <div class="bg-white/95 p-4 relative z-[1] rounded-t-md mt-auto">
                     <h3>Werknemers</h3>
                     <p>Met onze app hou je de regie in eigen hand.</p>
                 </div>
             </a>
-            <a href="https://www.befrank.nl/?post_type=page&p=64" target="_blank" class="group w-full flex relative h-96 overflow-hidden rounded-md text-gray-950 no-underline">
+            <a 
+                href="https://www.befrank.nl/?post_type=page&p=64" 
+                target="_blank" 
+                class="group w-full flex relative h-96 overflow-hidden rounded-md text-gray-950 no-underline hover:underline"
+            >
                 <img 
                     src="https://www.befrank.nl/wp-content/uploads/2023/09/H1380618-2048x1367.jpg" 
                     alt=""
-                    class="absolute inset-0 object-cover w-full h-full transition-transform scale-100 duration-300 group-hover:scale-105" />
+                    class="absolute inset-0 object-cover w-full h-full transition-transform scale-100 duration-300 group-hover:scale-105" 
+                />
                 <div class="bg-white/95 p-4 relative z-[1] rounded-t-md mt-auto">
                     <h3>Werkgevers</h3>
                     <p>Pensioengemak voor jou en je werknemers.</p>
@@ -24,57 +34,18 @@
             </a>
         </div>
     </header>
-    <div class="w-full flex flex-col gap-4 bg-white p-6 rounded-lg shadow-md lg:m-auto">
-        <h2>Bereken zelf</h2>
-        <div class="flex flex-col gap-2">
-            <label for="email">E-mail</label>
-            <input 
-                pInputText 
-                id="email" 
-                type="email"
-                aria-describedby="email-help" 
-                [(ngModel)]="email" 
-                placeholder="johndoe@befrank.nl"
-                (blur)="onBlurEmail()" />
-            <small id="email-help">
-                Uw e-mailadres bij BeFrank.
-            </small>
-        </div>
-        <div class="flex flex-col gap-2 w-full">
-            <label for="retirementAge">Pensioenleeftijd</label>
-            <p-inputNumber 
-                inputId="retirementAge" 
-                [(ngModel)]="retirementAge" 
-                styleClass="w-full"
-                aria-describedby="retirement-age-help" /> 
-            <small id="retirement-age-help">
-                Wat is uw gewenste pensioenleeftijd?
-            </small>
-        </div>
-
-        <div *ngIf="profile" class="card">
-            <p class="grid grid-cols-2"><strong>Naam:</strong> <span class="text-right">{{ profile.name }}</span></p>
-            <p class="grid grid-cols-2"><strong>Geboortedatum:</strong> <span class="text-right">{{ profile.birthDate }}</span></p>
-            <p class="grid grid-cols-2"><strong>Salaris (voltijd):</strong> <span class="text-right">€{{ (profile.fullTimeSalary / 100) | number:'1.2-2' }}</span></p>
-            <p class="grid grid-cols-2"><strong>Deeltijdpercentage:</strong> <span class="text-right">{{ profile.partTimePercentage * 100 }}%</span></p>
-            <p class="grid grid-cols-2"><strong>Werkstatus:</strong> <span class="text-right">{{ profile.employed ? 'In dienst' : 'Uit dienst' }}</span></p>
-        </div>
-
-        <button
-            pButton
-            pRipple
-            label="Berekenen"
-            (click)="onCalculatePension()"
-        ></button>
-
-        <div *ngIf="errorMessage" class="text-red-600">
-            <p>{{ errorMessage }}</p>
-        </div>
-
-        <div *ngIf="projectedValueInCents !== null" class="card">
-            <p>Verwachte waarde:</p>
-            <p class="text-5xl font-semibold bg-gradient-header bg-clip-text text-transparent w-fit">€{{ (projectedValueInCents / 100) | number:'1.2-2' }}</p>
-        </div>
+  
+    <div class="lg:m-auto w-full">
+        <app-pension-calculator-form
+          [(email)]="email"
+          [(retirementAge)]="retirementAge"
+          [profile]="profile"
+          [errorMessage]="errorMessage"
+          [projectedValue]="projectedValue"
+          (emailBlur)="onBlurEmail()"
+          (calculate)="onCalculatePension()"
+        ></app-pension-calculator-form>
     </div>
-</main>
-<router-outlet></router-outlet>
+  </main>
+  <router-outlet></router-outlet>
+  

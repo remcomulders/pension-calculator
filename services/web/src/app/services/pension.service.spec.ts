@@ -1,32 +1,26 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { PensionService } from './pension.service';
-import { environment } from '../environments/environment';
-import { ParticipantProfile } from '../types/participant.type';
+import { environment } from '../../environments/environment';
+import { mockProfile } from '../../mocks/participant.mock';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('PensionService', () => {
   let service: PensionService;
   let httpTestingController: HttpTestingController;
 
-  const mockProfile: ParticipantProfile = {
-    name: 'John Doe',
-    birthDate: '1964-05-10',
-    email: 'johndoe@befrank.nl',
-    fullTimeSalary: 6000000,
-    partTimePercentage: 0.8,
-    employed: true,
-    pensionAccountId: 1,
-  };
-
   const mockProjectedValue = 10480268;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [PensionService],
+      providers: [
+        PensionService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     });
     service = TestBed.inject(PensionService);
     httpTestingController = TestBed.inject(HttpTestingController);

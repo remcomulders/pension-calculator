@@ -1,29 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { PensionService } from './pension.service';
+import { PensionService } from './services/pension.service';
 import { PrimeNGConfig } from 'primeng/api';
 import { of, throwError } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ButtonModule } from 'primeng/button';
-import { ParticipantProfile } from '../types/participant.type';
+import { mockProfile } from '../mocks/participant.mock';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let pensionService: jasmine.SpyObj<PensionService>;
   let primeNGConfig: jasmine.SpyObj<PrimeNGConfig>;
-
-  const mockProfile: ParticipantProfile = {
-    name: 'John Doe',
-    birthDate: '1964-05-10',
-    email: 'johndoe@befrank.nl',
-    fullTimeSalary: 6000000,
-    partTimePercentage: 0.8,
-    employed: true,
-    pensionAccountId: 1,
-  };
 
   const mockProjectedValue = 10480268;
 
@@ -63,7 +53,6 @@ describe('AppComponent', () => {
   });
 
   it('should initialize PrimeNG ripple effect', () => {
-    component.ngOnInit();
     expect(primeNGConfig.ripple).toBeTrue();
   });
 
@@ -83,7 +72,7 @@ describe('AppComponent', () => {
 
     it('should set error message if profile fetch fails', () => {
       pensionService.getParticipantProfile.and.returnValue(
-        throwError({ status: 404 })
+        throwError(() => ({ status: 404 }))
       );
       component.email = 'johndoe@befrank.nl';
 
@@ -107,7 +96,7 @@ describe('AppComponent', () => {
 
       expect(component.profile).toBeNull();
       expect(component.errorMessage).toBeNull();
-      expect(component.projectedValueInCents).toBeNull();
+      expect(component.projectedValue).toBeNull();
     });
   });
 
@@ -123,13 +112,13 @@ describe('AppComponent', () => {
         'johndoe@befrank.nl',
         65
       );
-      expect(component.projectedValueInCents).toEqual(mockProjectedValue);
+      expect(component.projectedValue).toEqual(mockProjectedValue);
       expect(component.errorMessage).toBeNull();
     });
 
     it('should set error message if pension calculation fails', () => {
       pensionService.calculatePension.and.returnValue(
-        throwError({ status: 500 })
+        throwError(() => ({ status: 500 }))
       );
       component.email = 'johndoe@befrank.nl';
       component.retirementAge = 65;
@@ -140,7 +129,7 @@ describe('AppComponent', () => {
         'johndoe@befrank.nl',
         65
       );
-      expect(component.projectedValueInCents).toBeNull();
+      expect(component.projectedValue).toBeNull();
       expect(component.errorMessage).toBe(
         'Er is een fout opgetreden bij het berekenen van de pensioenwaarde. Controleer uw gegevens en probeer het opnieuw.'
       );

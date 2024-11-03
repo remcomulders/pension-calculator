@@ -1,0 +1,6 @@
+<div *ngIf="value !== null" class="card">
+    <p>Verwachte waarde:</p>
+    <p class="text-5xl font-semibold bg-gradient-header bg-clip-text text-transparent w-fit">
+        €{{ value! / 100 | number : '1.2-2' }}
+    </p>
+</div>

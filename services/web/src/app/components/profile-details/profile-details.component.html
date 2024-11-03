@@ -1,0 +1,18 @@
+<div *ngIf="profile" class="card">
+    <p class="grid grid-cols-2">
+        <strong>Naam:</strong> <span class="text-right">{{ profile!.name }}</span>
+    </p>
+    <p class="grid grid-cols-2">
+        <strong>Geboortedatum:</strong> <span class="text-right">{{ profile!.birthDate }}</span>
+    </p>
+    <p class="grid grid-cols-2">
+        <strong>Salaris (voltijd):</strong> <span class="text-right">€{{ (profile!.fullTimeSalary / 100) | number:'1.2-2' }}</span>
+    </p>
+    <p class="grid grid-cols-2">
+        <strong>Deeltijdpercentage:</strong> <span class="text-right">{{ profile!.partTimePercentage * 100 }}%</span>
+    </p>
+    <p class="grid grid-cols-2">
+        <strong>Werkstatus:</strong> <span class="text-right">{{ profile!.employed ? 'In dienst' : 'Uit dienst' }}</span>
+    </p>
+</div>
+  
